@@ -17,14 +17,12 @@
     </header>
     <main class="admin-container">
         
-        <?php
-        $precoUnitario = $precoUnitario ?? 8.00;
-        $totalGeral = $totalGeral ?? 0.0;
-        $totalCones = 0;
-        foreach ($pedidos as $p) {
-            $totalCones += max(1, (int)($p['quantidade'] ?? 1));
-        }
-        ?>
+        <?php 
+$precoUnitario = $precoUnitario ?? 7.00; 
+$totalGeral = $totalGeral ?? 0.0;
+
+$totalCones = is_array($pedidos) ? count($pedidos) : 0;
+?>
         <div class="admin-heading">
     <div>
         <span class="eyebrow">✦ ADMINISTRAÇÃO</span>
@@ -74,7 +72,7 @@
                             </tr><?php endif; ?>
                         <?php foreach ($pedidos as $pedido):
                             $qtd = max(1, (int)($pedido['quantidade'] ?? 1));
-                            $totalPedido = $qtd * $precoUnitario;
+                            $totalPedido = $qtd * 7.00;
                         ?>
                             <tr>
                                 <td><?= (int) $pedido['id'] ?></td>
@@ -95,13 +93,7 @@
                             </tr><?php endforeach; ?>
                     </tbody>
                     <?php if ($pedidos): ?>
-                    <tfoot>
-                        <tr>
-                            <td><strong><?= $totalCones ?></strong></td>
-                            <td><strong>R$ <?= number_format($totalGeral, 2, ',', '.') ?></strong></td>
-                            <td colspan="3"></td>
-                        </tr>
-                    </tfoot>
+                    
                     <?php endif; ?>
                 </table>
             </div>
