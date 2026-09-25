@@ -54,3 +54,122 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+// ==========================================
+// PEDIDO COM VÁRIOS SABORES
+// ==========================================
+
+const PRECO_CONE = 7.00;
+
+function atualizarTotalPedido() {
+
+    let totalCones = 0;
+
+    document
+        .querySelectorAll('.sabor-checkbox')
+        .forEach(checkbox => {
+
+            if (checkbox.checked) {
+
+                const sabor = checkbox.dataset.sabor;
+
+                const quantidadeInput =
+                    document.querySelector(
+                        `.quantidade-sabor[data-sabor="${sabor}"]`
+                    );
+
+                if (quantidadeInput) {
+
+                    let quantidade =
+                        parseInt(quantidadeInput.value) || 0;
+
+                    totalCones += quantidade;
+                }
+            }
+        });
+
+    const valorTotal =
+        totalCones * PRECO_CONE;
+
+    const totalConesElemento =
+        document.getElementById('total-cones');
+
+    const valorTotalElemento =
+        document.getElementById('valor-total');
+
+    if (totalConesElemento) {
+
+        totalConesElemento.textContent =
+            totalCones;
+    }
+
+    if (valorTotalElemento) {
+
+        valorTotalElemento.textContent =
+            'R$ ' +
+            valorTotal
+                .toFixed(2)
+                .replace('.', ',');
+    }
+}
+
+
+// ==========================================
+// ATIVAR/DESATIVAR QUANTIDADE
+// ==========================================
+
+document
+    .querySelectorAll('.sabor-checkbox')
+    .forEach(checkbox => {
+
+        checkbox.addEventListener('change', function () {
+
+            const sabor =
+                this.dataset.sabor;
+
+            const quantidadeInput =
+                document.querySelector(
+                    `.quantidade-sabor[data-sabor="${sabor}"]`
+                );
+
+            if (quantidadeInput) {
+
+                quantidadeInput.disabled =
+                    !this.checked;
+
+                if (!this.checked) {
+                    quantidadeInput.value = 1;
+                }
+            }
+
+            atualizarTotalPedido();
+        });
+    });
+
+
+// ==========================================
+// ALTERAÇÃO DA QUANTIDADE
+// ==========================================
+
+document
+    .querySelectorAll('.quantidade-sabor')
+    .forEach(input => {
+
+        input.addEventListener(
+            'input',
+            atualizarTotalPedido
+        );
+    });
+
+
+// ==========================================
+// VALOR INICIAL
+// ==========================================
+
+document.addEventListener(
+    'DOMContentLoaded',
+    function () {
+
+        atualizarTotalPedido();
+
+    }
+);

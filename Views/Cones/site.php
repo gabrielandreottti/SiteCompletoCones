@@ -396,13 +396,6 @@ $erro = $_GET['erro'] ?? '';
                                 R$ 7,00
                             </strong>
 
-                            <button
-                                type="button"
-                                onclick="selecionarSabor('<?= htmlspecialchars($produto[0], ENT_QUOTES) ?>')"
-                                title="Selecionar este sabor"
-                            >
-                                +
-                            </button>
 
                         </div>
 
@@ -506,31 +499,66 @@ $erro = $_GET['erro'] ?? '';
                 >
 
 
-                <label for="sabor">
-                    Sabor
-                </label>
+               <label>
+    Escolha os sabores
+</label>
 
-                <select
-                    id="sabor"
-                    name="sabor"
-                    required
+<div class="sabores-pedido">
+
+    <?php foreach ($sabores as $sabor): ?>
+
+        <div class="sabor-item">
+
+            <div class="sabor-nome">
+
+                <input
+                    type="checkbox"
+                    class="sabor-checkbox"
+                    data-sabor="<?= htmlspecialchars($sabor, ENT_QUOTES) ?>"
                 >
 
-                    <option value="">
-                        Selecione um sabor
-                    </option>
+                <span>
+                    <?= htmlspecialchars($sabor) ?>
+                </span>
 
-                    <?php foreach ($sabores as $sabor): ?>
+            </div>
 
-                        <option
-                            value="<?= htmlspecialchars($sabor) ?>"
-                        >
-                            <?= htmlspecialchars($sabor) ?>
-                        </option>
+            <input
+                type="number"
+                class="quantidade-sabor"
+                name="sabores[<?= htmlspecialchars($sabor, ENT_QUOTES) ?>]"
+                min="1"
+                max="100"
+                value="1"
+                disabled
+                data-sabor="<?= htmlspecialchars($sabor, ENT_QUOTES) ?>"
+            >
 
-                    <?php endforeach; ?>
+        </div>
 
-                </select>
+    <?php endforeach; ?>
+
+</div>
+
+<div class="resumo-pedido">
+
+    <p>
+        Total de cones:
+        <strong id="total-cones">
+            0
+        </strong>
+    </p>
+
+    <p>
+        Valor total:
+        <strong id="valor-total">
+            R$ 0,00
+        </strong>
+    </p>
+
+</div>
+
+        
 
 
                 <label for="quantidade">

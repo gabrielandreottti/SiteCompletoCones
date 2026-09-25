@@ -9,19 +9,46 @@
 </head>
 
 <body class="admin-page">
-    <header class="header"><a class="logo" href="<?= BASE_URL ?>/index.php?acao=inicio"><span>🍦</span>
-            <div><strong>MM Doces</strong><small>CONES RECHEADOS</small></div>
-        </a>
-        <nav><a href="<?= BASE_URL ?>/index.php?acao=inicio">Site</a><a
-                href="<?= BASE_URL ?>/index.php?acao=inicio#cadastro">Novo pedido</a></nav>
-    </header>
+     <a class="logo" href="<?= BASE_URL ?>/index.php?acao=inicio">
+
+    <span class="logo-img">
+        <img
+            src="<?= BASE_URL ?>/assets/img/doces.png"
+            alt="MM Doces"
+        >
+    </span>
+
+    <div class="logo-text">
+        <strong>MM Doces</strong>
+        <small>CONES RECHEADOS</small>
+    </div>
+
+</a>
     <main class="admin-container">
         
-        <?php 
-$precoUnitario = $precoUnitario ?? 7.00; 
-$totalGeral = $totalGeral ?? 0.0;
+        <?php
 
-$totalCones = is_array($pedidos) ? count($pedidos) : 0;
+$precoUnitario = 7.00;
+
+$totalGeral = 0.00;
+$totalCones = 0;
+
+if (is_array($pedidos)) {
+
+    foreach ($pedidos as $pedido) {
+
+        $qtd = max(
+            1,
+            (int)($pedido['quantidade'] ?? 1)
+        );
+
+        $totalCones += $qtd;
+
+        $totalGeral +=
+            $qtd * $precoUnitario;
+    }
+}
+
 ?>
         <div class="admin-heading">
     <div>
@@ -68,7 +95,7 @@ $totalCones = is_array($pedidos) ? count($pedidos) : 0;
                     <tbody>
                         <?php if (!$pedidos): ?>
                             <tr>
-                                <td colspan="10" class="empty">Nenhum pedido cadastrado ainda. 🍦</td>
+                            <td colspan="10" class="empty">Nenhum pedido cadastrado ainda. </td>
                             </tr><?php endif; ?>
                         <?php foreach ($pedidos as $pedido):
                             $qtd = max(1, (int)($pedido['quantidade'] ?? 1));
